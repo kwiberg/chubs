@@ -30,13 +30,12 @@ def test_generate_calculates_n_and_sample(tmp_path):
     info = chubs.generate(10, [words_file], DummyRandom())
     assert info.count == 8
     assert math.isclose(info.bpw, 3.0)
-    assert info.n == 4
     assert info.words == sorted(set(words))[:4]
 
 
 def test_main_prints_expected(monkeypatch, capsys):
     def fake_generate(bits, wordlists, rnd):
-        return chubs.PassphraseInfo(10, 3.0, 4, ["a", "b", "c", "d"])
+        return chubs.PassphraseInfo(10, 3.0, ["a", "b", "c", "d"])
 
     monkeypatch.setattr(chubs, "generate", fake_generate)
     chubs.main(["10", "dummy.txt"])

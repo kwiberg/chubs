@@ -24,7 +24,6 @@ def load_words(wordlists):
 class PassphraseInfo(NamedTuple):
     count: int        # number of words we selected from
     bpw: float        # bits per word
-    n: int            # number of words in passphrase
     words: list[str]  # the passphrase
 
 
@@ -34,7 +33,7 @@ def generate(bits, wordlists, rnd):
     bpw = math.log(len(words), 2)
     n = math.ceil(bits / bpw)
     chosen = rnd.sample(sorted(words), n)
-    return PassphraseInfo(len(words), bpw, n, chosen)
+    return PassphraseInfo(len(words), bpw, chosen)
 
 
 def main(argv):
@@ -46,9 +45,10 @@ def main(argv):
             info.count, len(wordlists), info.bpw
         )
     )
+    n = len(info.words)
     print(
         "Requested {} bits; these {} word(s) have {:.1f} bits:".format(
-            bits, info.n, info.n * info.bpw
+            bits, n, n * info.bpw
         )
     )
     print(" ".join(info.words))
