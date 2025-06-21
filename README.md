@@ -12,7 +12,7 @@ Invoke it from the command line using the built in help for details:
 
     $ python3 chubs.py -h
 
-The basic usage remains simple:
+Basic usage:
 
     $ python3 chubs.py 64 some-long-text-file.txt
     5640 unique words in 1 files (12.5 bits per word)
