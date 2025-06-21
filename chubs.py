@@ -8,14 +8,6 @@ from typing import NamedTuple
 # is horribly English-centric.
 word_re = re.compile(r"[a-z]*$")
 
-
-class PassphraseInfo(NamedTuple):
-    count: int
-    bpw: float
-    n: int
-    words: list[str]
-
-
 def load_words(wordlists):
     """Return a set of admissible words found in *wordlists*."""
     words = set()
@@ -29,12 +21,18 @@ def load_words(wordlists):
     return words
 
 
+class PassphraseInfo(NamedTuple):
+    count: int        # number of words we selected from
+    bpw: float        # bits per word
+    n: int            # number of words in passphrase
+    words: list[str]  # the passphrase
+
+
 def generate(bits, wordlists, rnd):
     """Generate a passphrase from *wordlists* with at least *bits* bits."""
     words = load_words(wordlists)
     bpw = math.log(len(words), 2)
     n = math.ceil(bits / bpw)
-    # Python 3.11 requires sampling from a sequence, so sort the set first
     chosen = rnd.sample(sorted(words), n)
     return PassphraseInfo(len(words), bpw, n, chosen)
 
