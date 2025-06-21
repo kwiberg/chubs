@@ -41,7 +41,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "bits", type=int, help="number of random bits for the passphrase"
+        "bits", type=int, help="the passphrase will have at least this many bits of entropy"
     )
     parser.add_argument(
         "wordlists",
