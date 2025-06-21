@@ -1,4 +1,4 @@
-chubs---a simple Python script that generates XKCD-style passwords
+`chubs`—a simple Python script that generates XKCD-style passwords
 ==================================================================
 
 First, read the [original XKCD comic][1].
