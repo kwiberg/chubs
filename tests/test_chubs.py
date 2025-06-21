@@ -46,3 +46,9 @@ def test_main_prints_expected(monkeypatch, capsys):
         "a b c d\n"
     )
     assert captured.out == expected
+
+
+def test_parse_args_returns_namespace():
+    args = chubs.parse_args(["20", "one.txt", "two.txt"])
+    assert args.bits == 20
+    assert args.wordlists == ["one.txt", "two.txt"]

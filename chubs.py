@@ -1,3 +1,4 @@
+import argparse
 import math
 import random
 import re
@@ -36,9 +37,25 @@ def generate(bits, wordlists, rnd):
     return PassphraseInfo(len(words), bpw, chosen)
 
 
-def main(argv):
-    bits = int(argv[0])
-    wordlists = argv[1:]
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "bits", type=int, help="the passphrase will have at least this many bits of entropy"
+    )
+    parser.add_argument(
+        "wordlists",
+        nargs="+",
+        metavar="WORDLIST",
+        help="path(s) to text files containing candidate words",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str]) -> None:
+    args = parse_args(argv)
+    bits = args.bits
+    wordlists = args.wordlists
     info = generate(bits, wordlists, random.SystemRandom())
     print(
         "{} unique words in {} files ({:.1f} bits per word)".format(
