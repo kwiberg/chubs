@@ -29,4 +29,4 @@ print("{} unique words in {} files ({:.1f} bits per word)"
       .format(len(words), len(wordlists), bpw))
 print("Requested {} bits; these {} word(s) have {:.1f} bits:"
       .format(bits, n, n * bpw))
-print(" ".join(random.SystemRandom().sample(words, n)))
+print(" ".join(random.SystemRandom().sample(sorted(words), n)))
