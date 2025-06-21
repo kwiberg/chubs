@@ -7,11 +7,11 @@ import sys
 # is horribly English-centric.
 word_re = re.compile(r"[a-z]*$")
 
-# Parse command-line arguments. Crash if the user git it wrong.
+# Parse command-line arguments. Crash if the user got it wrong.
 (bits, *wordlists) = sys.argv[1:]
 bits = int(bits)
 
-# Extract the set of admissable words from the text in the files.
+# Extract the set of admissible words from the text in the files.
 words = set()
 for wordlist in wordlists:
     with open(wordlist) as f:
