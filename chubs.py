@@ -9,6 +9,7 @@ from typing import NamedTuple
 # is horribly English-centric.
 word_re = re.compile(r"[a-z]*$")
 
+
 def load_words(wordlists):
     """Return a set of admissible words found in *wordlists*."""
     words = set()
@@ -23,8 +24,8 @@ def load_words(wordlists):
 
 
 class PassphraseInfo(NamedTuple):
-    count: int        # number of words we selected from
-    bpw: float        # bits per word
+    count: int  # number of words we selected from
+    bpw: float  # bits per word
     words: list[str]  # the passphrase
 
 
@@ -57,17 +58,9 @@ def main(argv: list[str]) -> None:
     bits = args.bits
     wordlists = args.wordlists
     info = generate(bits, wordlists, random.SystemRandom())
-    print(
-        "{} unique words in {} files ({:.1f} bits per word)".format(
-            info.count, len(wordlists), info.bpw
-        )
-    )
+    print(f"{info.count} unique words in {len(wordlists)} files ({info.bpw:.1f} bits per word)")
     n = len(info.words)
-    print(
-        "Requested {} bits; these {} word(s) have {:.1f} bits:".format(
-            bits, n, n * info.bpw
-        )
-    )
+    print(f"Requested {bits} bits; these {n} word(s) have {n * info.bpw:.1f} bits:")
     print(" ".join(info.words))
 
 
