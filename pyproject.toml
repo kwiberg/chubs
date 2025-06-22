@@ -23,5 +23,6 @@ ignore = [
     "S101",  # allow plain asserts in tests
     "T201",  # allow print statements in CLI output
     "PLR2004",  # allow magic numbers in tests
+    "D204",  # allow no blank line after class docstring
 ]
 

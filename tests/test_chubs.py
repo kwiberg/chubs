@@ -21,7 +21,6 @@ def test_load_words(tmp_path: Path) -> None:
 
 class DummyRandom:
     """Deterministic :class:`random.Random` replacement for tests."""
-
     def sample(self, seq: list[str], n: int) -> list[str]:
         """Return the first *n* items to keep sampling deterministic."""
         return list(seq)[:n]
@@ -38,7 +37,7 @@ def test_generate_calculates_n_and_sample(tmp_path: Path) -> None:
         "epsilon",
         "zeta",
         "eta",
-        "theta",
+        "theta"
     ]
     words_file.write_text(" ".join(words))
     info = chubs.generate(10, [words_file], DummyRandom())
