@@ -2,5 +2,21 @@
 line-length = 100
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "TCH", "ANN"]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes failures
+    "I",   # import sorting
+    "UP",  # upgrade syntax
+    "TCH", # type-checking imports
+    "ANN", # missing type hints
+    "D",   # docstring style
+    "B",   # bugbear warnings
+    "C4",  # comprehension tweaks
+    "PTH", # prefer pathlib
+    "T20", # print statements
+    "ARG", # unused arguments
+    "S",   # security issues
+    "SIM", # simplifications
+    "PL",  # pylint rules
+]
 
