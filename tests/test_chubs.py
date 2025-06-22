@@ -22,10 +22,7 @@ class DummyRandom:
 
 def test_generate_calculates_n_and_sample(tmp_path):
     words_file = tmp_path / "words.txt"
-    words = [
-        "alpha", "beta", "gamma", "delta",
-        "epsilon", "zeta", "eta", "theta",
-    ]
+    words = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta"]
     words_file.write_text(" ".join(words))
     info = chubs.generate(10, [words_file], DummyRandom())
     assert info.count == 8
