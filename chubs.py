@@ -3,16 +3,17 @@ import math
 import random
 import re
 import sys
+from collections.abc import Iterable
 from typing import NamedTuple
 
 # Regular expression that defines what words are admissible; this one
 # is horribly English-centric.
-word_re = re.compile(r"[a-z]*$")
+word_re: re.Pattern[str] = re.compile(r"[a-z]*$")
 
 
-def load_words(wordlists):
+def load_words(wordlists: Iterable[str]) -> set[str]:
     """Return a set of admissible words found in *wordlists*."""
-    words = set()
+    words: set[str] = set()
     for wordlist in wordlists:
         with open(wordlist) as f:
             for line in f:
@@ -29,7 +30,7 @@ class PassphraseInfo(NamedTuple):
     words: list[str]  # the passphrase
 
 
-def generate(bits, wordlists, rnd):
+def generate(bits: int, wordlists: Iterable[str], rnd: random.Random) -> PassphraseInfo:
     """Generate a passphrase from *wordlists* with at least *bits* bits."""
     words = load_words(wordlists)
     bpw = math.log(len(words), 2)
