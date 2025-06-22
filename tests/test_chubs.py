@@ -1,3 +1,5 @@
+"""Unit tests for the :mod:`chubs` module."""
+
 import math
 import sys
 from pathlib import Path
@@ -10,6 +12,7 @@ import chubs
 
 
 def test_load_words(tmp_path: Path) -> None:
+    """Return lowercased words that match the regex."""
     words_file = tmp_path / "words.txt"
     words_file.write_text("Hello world\nBanana BANANA apple123 pineapple")
     result = chubs.load_words([words_file])
@@ -17,12 +20,15 @@ def test_load_words(tmp_path: Path) -> None:
 
 
 class DummyRandom:
+    """Deterministic :class:`random.Random` replacement for tests."""
+
     def sample(self, seq: list[str], n: int) -> list[str]:
         """Return the first *n* items to keep sampling deterministic."""
         return list(seq)[:n]
 
 
 def test_generate_calculates_n_and_sample(tmp_path: Path) -> None:
+    """`generate` samples enough words for the requested bits."""
     words_file = tmp_path / "words.txt"
     words = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta"]
     words_file.write_text(" ".join(words))
@@ -35,7 +41,9 @@ def test_generate_calculates_n_and_sample(tmp_path: Path) -> None:
 def test_main_prints_expected(
     monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    def fake_generate(bits: int, wordlists: list[str], rnd: DummyRandom) -> chubs.PassphraseInfo:
+    """`main` writes passphrase information to stdout."""
+
+    def fake_generate(_bits: int, _wordlists: list[str], _rnd: DummyRandom) -> chubs.PassphraseInfo:
         return chubs.PassphraseInfo(10, 3.0, ["a", "b", "c", "d"])
 
     monkeypatch.setattr(chubs, "generate", fake_generate)
@@ -50,6 +58,7 @@ def test_main_prints_expected(
 
 
 def test_parse_args_returns_namespace() -> None:
+    """`parse_args` returns populated :class:`argparse.Namespace`."""
     args = chubs.parse_args(["20", "one.txt", "two.txt"])
     assert args.bits == 20
     assert args.wordlists == ["one.txt", "two.txt"]
