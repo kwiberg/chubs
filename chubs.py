@@ -1,9 +1,12 @@
+"""Generate simple passphrases from word lists."""
+
 import argparse
 import math
 import random
 import re
 import sys
 from collections.abc import Iterable
+from pathlib import Path
 from typing import NamedTuple
 
 # Regular expression that defines what words are admissible; this one
@@ -15,7 +18,7 @@ def load_words(wordlists: Iterable[str]) -> set[str]:
     """Return a set of admissible words found in *wordlists*."""
     words: set[str] = set()
     for wordlist in wordlists:
-        with open(wordlist) as f:
+        with Path(wordlist).open() as f:
             for line in f:
                 for word in line.split():
                     w = word.strip().lower()
@@ -25,6 +28,8 @@ def load_words(wordlists: Iterable[str]) -> set[str]:
 
 
 class PassphraseInfo(NamedTuple):
+    """Details about a generated passphrase."""
+
     count: int  # number of words we selected from
     bpw: float  # bits per word
     words: list[str]  # the passphrase
@@ -55,6 +60,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 
 def main(argv: list[str]) -> None:
+    """Run the program with command line *argv*."""
     args = parse_args(argv)
     bits = args.bits
     wordlists = args.wordlists

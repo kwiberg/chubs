@@ -19,4 +19,9 @@ select = [
     "SIM", # simplifications
     "PL",  # pylint rules
 ]
+ignore = [
+    "S101",  # allow plain asserts in tests
+    "T201",  # allow print statements in CLI output
+    "PLR2004",  # allow magic numbers in tests
+]
 
