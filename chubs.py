@@ -29,7 +29,6 @@ def load_words(wordlists: Iterable[str]) -> set[str]:
 
 class PassphraseInfo(NamedTuple):
     """Details about a generated passphrase."""
-
     count: int  # number of words we selected from
     bpw: float  # bits per word
     words: list[str]  # the passphrase
