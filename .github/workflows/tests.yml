@@ -16,7 +16,7 @@ jobs:
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v6
       - name: Install dependencies
-        run: uv pip install pytest ruff
+        run: uv pip install --system pytest ruff
       - name: Lint, format, and type-check with ruff
         run: |
           ruff check .
