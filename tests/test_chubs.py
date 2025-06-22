@@ -38,9 +38,7 @@ def test_generate_calculates_n_and_sample(tmp_path: Path) -> None:
     assert info.words == sorted(set(words))[:4]
 
 
-def test_main_prints_expected(
-    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_main_prints_expected(monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]) -> None:
     """`main` writes passphrase information to stdout."""
 
     def fake_generate(_bits: int, _wordlists: list[str], _rnd: DummyRandom) -> chubs.PassphraseInfo:
