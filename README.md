@@ -12,16 +12,20 @@ Invoke it from the command line using the built in help for details:
 
     $ python3 chubs.py -h
 
-Basic usage:
+Basic usage (defaults to 64 bits of entropy):
 
-    $ python3 chubs.py -b 64 -w some-long-text-file.txt
+    $ python3 chubs.py -w some-long-text-file.txt
     5640 unique words in 1 files (12.5 bits per word)
     Requested 64 bits; these 6 word(s) have 74.8 bits:
     tall healthy disagreeable noble connect perplexity
 
+Asking for a specific amount of entropy:
+
+    $ python3 chubs.py -b 128 -w some-long-text-file.txt
+
 Multiple word list files:
 
-    $ python3 chubs.py -b 64 -w file1.txt -w file2.txt
+    $ python3 chubs.py -w file1.txt -w file2.txt
 
 The words will be randomly selected from the set of words in the text
 files listed on the command line. Pick any text file you like (or

@@ -51,8 +51,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         "-b",
         "--entropy-bits",
         type=int,
-        required=True,
-        help="the passphrase will have at least this many bits of entropy",
+        default=64,
+        help="the passphrase will have at least this many bits of entropy (default: 64)",
     )
     parser.add_argument(
         "-w",

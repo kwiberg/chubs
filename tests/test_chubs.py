@@ -62,3 +62,30 @@ def test_parse_args_returns_namespace() -> None:
     args = chubs.parse_args(["-b", "20", "-w", "one.txt", "-w", "two.txt"])
     assert args.entropy_bits == 20
     assert args.wordlists == ["one.txt", "two.txt"]
+
+
+def test_parse_args_defaults_entropy_bits() -> None:
+    """`parse_args` defaults entropy_bits to 64 when not specified."""
+    args = chubs.parse_args(["-w", "one.txt"])
+    assert args.entropy_bits == 64
+    assert args.wordlists == ["one.txt"]
+
+
+def test_main_with_default_entropy(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """`main` uses default 64 bits when not specified."""
+
+    def fake_generate(_bits: int, _wordlists: list[str], _rnd: DummyRandom) -> chubs.PassphraseInfo:
+        words = ["w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8", "w9", "w10"]
+        return chubs.PassphraseInfo(100, 6.64, words)
+
+    monkeypatch.setattr(chubs, "generate", fake_generate)
+    chubs.main(["-w", "dummy.txt"])
+    captured = capsys.readouterr()
+    expected = (
+        "100 unique words in 1 files (6.6 bits per word)\n"
+        "Requested 64 bits; these 10 word(s) have 66.4 bits:\n"
+        "w1 w2 w3 w4 w5 w6 w7 w8 w9 w10\n"
+    )
+    assert captured.out == expected
