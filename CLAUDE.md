@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Note:** All `.md` files in this repository are documentation files.
+
 ## Project Overview
 
 This is `chubs`, a simple Python script that generates XKCD-style passwords (passphrases) from word lists. The script analyzes text files to extract valid words and creates secure passphrases with a specified entropy level.
@@ -38,14 +40,19 @@ ruff format --check --diff .
 ```
 
 ### Running the Script
-Basic usage:
+Basic usage (defaults to 64 bits of entropy):
 ```bash
-python3 chubs.py -b 64 -w some-text-file.txt
+python3 chubs.py -w some-text-file.txt
+```
+
+Asking for a specific amount of entropy:
+```bash
+python3 chubs.py -b 128 -w some-text-file.txt
 ```
 
 Multiple word list files:
 ```bash
-python3 chubs.py -b 64 -w file1.txt -w file2.txt
+python3 chubs.py -w file1.txt -w file2.txt
 ```
 
 ## Architecture
