@@ -24,5 +24,7 @@ ignore = [
     "T201",     # allow print statements in CLI output
     "PLR2004",  # allow magic numbers in tests
     "D204",     # allow no blank line after class docstring
+    "D203",     # incorrect-blank-line-before-class (incompatible with D211 no-blank-line-before-class)
+    "D213",     # multi-line-summary-second-line (incompatible with D212 multi-line-summary-first-line)
 ]
 
