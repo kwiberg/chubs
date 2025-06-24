@@ -89,3 +89,58 @@ def test_main_with_default_entropy(
         "w1 w2 w3 w4 w5 w6 w7 w8 w9 w10\n"
     )
     assert captured.out == expected
+
+
+def test_download_default_wordlist(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """`download_default_wordlist` downloads Pride and Prejudice from Project Gutenberg."""
+    fake_temp_dir = tmp_path / "temp"
+    fake_temp_dir.mkdir()
+
+    def fake_gettempdir() -> str:
+        return str(fake_temp_dir)
+
+    downloaded_content = False
+
+    def fake_urlretrieve(url: str, filename: str) -> None:
+        nonlocal downloaded_content
+        downloaded_content = True
+        assert url == "https://www.gutenberg.org/files/1342/1342-0.txt"
+        Path(filename).write_text("It is a truth universally acknowledged...")
+
+    monkeypatch.setattr("tempfile.gettempdir", fake_gettempdir)
+    monkeypatch.setattr("urllib.request.urlretrieve", fake_urlretrieve)
+
+    result_path = chubs.download_default_wordlist()
+
+    assert downloaded_content
+    assert result_path == str(fake_temp_dir / "pride_and_prejudice.txt")
+    assert Path(result_path).exists()
+    assert Path(result_path).read_text() == "It is a truth universally acknowledged..."
+
+
+def test_download_default_wordlist_no_redownload(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """`download_default_wordlist` does not re-download if file already exists."""
+    fake_temp_dir = tmp_path / "temp"
+    fake_temp_dir.mkdir()
+    existing_file = fake_temp_dir / "pride_and_prejudice.txt"
+    existing_file.write_text("Existing content")
+
+    def fake_gettempdir() -> str:
+        return str(fake_temp_dir)
+
+    download_called = False
+
+    def fake_urlretrieve(_url: str, _filename: str) -> None:
+        nonlocal download_called
+        download_called = True
+
+    monkeypatch.setattr("tempfile.gettempdir", fake_gettempdir)
+    monkeypatch.setattr("urllib.request.urlretrieve", fake_urlretrieve)
+
+    result_path = chubs.download_default_wordlist()
+
+    assert not download_called
+    assert result_path == str(existing_file)
+    assert Path(result_path).read_text() == "Existing content"

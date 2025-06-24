@@ -12,25 +12,39 @@ Invoke it from the command line using the built in help for details:
 
     $ python3 chubs.py -h
 
-Basic usage (defaults to 64 bits of entropy):
+Basic usage with default wordlist (Pride and Prejudice, 64 bits of
+entropy):
 
-    $ python3 chubs.py -w some-long-text-file.txt
-    5640 unique words in 1 files (12.5 bits per word)
-    Requested 64 bits; these 6 word(s) have 74.8 bits:
-    tall healthy disagreeable noble connect perplexity
+    $ python3 chubs.py
+    5715 unique words in 1 files (12.5 bits per word)
+    Requested 64 bits; these 6 word(s) have 74.9 bits:
+    french schemes stand viewing henceforth aspect
 
-Asking for a specific amount of entropy:
+Using a custom wordlist:
 
-    $ python3 chubs.py -b 128 -w some-long-text-file.txt
+    $ curl -o wuthering-heights.txt https://www.gutenberg.org/files/768/768-0.txt
+    $ python3 chubs.py -w wuthering-heights.txt
+    7840 unique words in 1 files (12.9 bits per word)
+    Requested 64 bits; these 5 word(s) have 64.7 bits:
+    image luxury overflowing wad interview
+
+Asking for a specific amount of entropy (using default wordlist):
+
+    $ python3 chubs.py -b 128
 
 Multiple word list files:
 
     $ python3 chubs.py -w file1.txt -w file2.txt
 
-The words will be randomly selected from the set of words in the text
-files listed on the command line. Pick any text file you like (or
-files---you can list as many as you like with multiple -w flags). This example uses [Jane
-Austen's][2] [Pride and Prejudice][3] from [Project Gutenberg][4].
+By default, the script uses [Jane Austen's][2] [Pride and
+Prejudice][3] from [Project Gutenberg][4] as the wordlist, which is
+automatically downloaded and cached in your system's temporary
+directory.
+
+You can also specify your own text files using the -w flag. The words
+will be randomly selected from the set of words in the text files
+listed on the command line. Pick any text file you like (or
+files---you can list as many as you like with multiple -w flags).
 
 The numeric parameter you specify is the number of random bits used to
 create the password. This is a measure of the password strength

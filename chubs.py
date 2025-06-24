@@ -5,6 +5,8 @@ import math
 import random
 import re
 import sys
+import tempfile
+import urllib.request
 from collections.abc import Iterable
 from pathlib import Path
 from typing import NamedTuple
@@ -12,6 +14,21 @@ from typing import NamedTuple
 # Regular expression that defines what words are admissible; this one
 # is horribly English-centric.
 word_re: re.Pattern[str] = re.compile(r"[a-z]*$")
+
+
+def download_default_wordlist() -> str:
+    """Download Pride and Prejudice from Project Gutenberg to temp directory.
+
+    Returns path to the downloaded file. Avoids re-downloading if already exists.
+    """
+    temp_dir = Path(tempfile.gettempdir())
+    wordlist_path = temp_dir / "pride_and_prejudice.txt"
+
+    if not wordlist_path.exists():
+        url = "https://www.gutenberg.org/files/1342/1342-0.txt"
+        urllib.request.urlretrieve(url, wordlist_path)  # noqa: S310
+
+    return str(wordlist_path)
 
 
 def load_words(wordlists: Iterable[str]) -> set[str]:
@@ -58,10 +75,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         "-w",
         "--wordlist",
         action="append",
-        required=True,
+        required=False,
         metavar="WORDLIST",
         dest="wordlists",
-        help="path to a text file containing candidate words (can be used multiple times)",
+        help="path to a text file containing candidate words (can be used multiple times; "
+        "defaults to Jane Austen's Pride and Prejudice from Project Gutenberg)",
     )
     return parser.parse_args(argv)
 
@@ -70,7 +88,7 @@ def main(argv: list[str]) -> None:
     """Run the program with command line *argv*."""
     args = parse_args(argv)
     bits = args.entropy_bits
-    wordlists = args.wordlists
+    wordlists = args.wordlists or [download_default_wordlist()]
     info = generate(bits, wordlists, random.SystemRandom())
     print(f"{info.count} unique words in {len(wordlists)} files ({info.bpw:.1f} bits per word)")
     n = len(info.words)

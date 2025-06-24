@@ -40,12 +40,22 @@ ruff format --check --diff .
 ```
 
 ### Running the Script
-Basic usage (defaults to 64 bits of entropy):
+Basic usage with default wordlist (defaults to 64 bits of entropy):
+```bash
+python3 chubs.py
+```
+
+Using a custom wordlist:
 ```bash
 python3 chubs.py -w some-text-file.txt
 ```
 
 Asking for a specific amount of entropy:
+```bash
+python3 chubs.py -b 128
+```
+
+With custom wordlist and entropy:
 ```bash
 python3 chubs.py -b 128 -w some-text-file.txt
 ```
@@ -63,6 +73,7 @@ python3 chubs.py -w file1.txt -w file2.txt
 - `pyproject.toml`: Ruff configuration with comprehensive linting rules
 
 ### Key Functions
+- `download_default_wordlist()` - Downloads Pride and Prejudice from Project Gutenberg to temp directory (cached to avoid re-downloading)
 - `load_words()` - Extracts valid words from text files using regex filtering
 - `generate()` - Creates passphrases with specified entropy using cryptographically secure random sampling
 - `PassphraseInfo` - NamedTuple containing passphrase metadata (word count, bits per word, selected words)
