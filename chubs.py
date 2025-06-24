@@ -48,15 +48,20 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "bits",
+        "-b",
+        "--entropy-bits",
         type=int,
+        required=True,
         help="the passphrase will have at least this many bits of entropy",
     )
     parser.add_argument(
-        "wordlists",
-        nargs="+",
+        "-w",
+        "--wordlist",
+        action="append",
+        required=True,
         metavar="WORDLIST",
-        help="path(s) to text files containing candidate words",
+        dest="wordlists",
+        help="path to a text file containing candidate words (can be used multiple times)",
     )
     return parser.parse_args(argv)
 
@@ -64,7 +69,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 def main(argv: list[str]) -> None:
     """Run the program with command line *argv*."""
     args = parse_args(argv)
-    bits = args.bits
+    bits = args.entropy_bits
     wordlists = args.wordlists
     info = generate(bits, wordlists, random.SystemRandom())
     print(f"{info.count} unique words in {len(wordlists)} files ({info.bpw:.1f} bits per word)")

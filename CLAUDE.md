@@ -40,7 +40,12 @@ ruff format --check --diff .
 ### Running the Script
 Basic usage:
 ```bash
-python3 chubs.py 64 some-text-file.txt
+python3 chubs.py -b 64 -w some-text-file.txt
+```
+
+Multiple word list files:
+```bash
+python3 chubs.py -b 64 -w file1.txt -w file2.txt
 ```
 
 ## Architecture

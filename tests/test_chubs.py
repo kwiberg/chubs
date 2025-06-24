@@ -47,7 +47,7 @@ def test_main_prints_expected(
         return chubs.PassphraseInfo(10, 3.0, ["a", "b", "c", "d"])
 
     monkeypatch.setattr(chubs, "generate", fake_generate)
-    chubs.main(["10", "dummy.txt"])
+    chubs.main(["-b", "10", "-w", "dummy.txt"])
     captured = capsys.readouterr()
     expected = (
         "10 unique words in 1 files (3.0 bits per word)\n"
@@ -59,6 +59,6 @@ def test_main_prints_expected(
 
 def test_parse_args_returns_namespace() -> None:
     """`parse_args` returns populated :class:`argparse.Namespace`."""
-    args = chubs.parse_args(["20", "one.txt", "two.txt"])
-    assert args.bits == 20
+    args = chubs.parse_args(["-b", "20", "-w", "one.txt", "-w", "two.txt"])
+    assert args.entropy_bits == 20
     assert args.wordlists == ["one.txt", "two.txt"]

@@ -14,14 +14,18 @@ Invoke it from the command line using the built in help for details:
 
 Basic usage:
 
-    $ python3 chubs.py 64 some-long-text-file.txt
+    $ python3 chubs.py -b 64 -w some-long-text-file.txt
     5640 unique words in 1 files (12.5 bits per word)
     Requested 64 bits; these 6 word(s) have 74.8 bits:
     tall healthy disagreeable noble connect perplexity
 
+Multiple word list files:
+
+    $ python3 chubs.py -b 64 -w file1.txt -w file2.txt
+
 The words will be randomly selected from the set of words in the text
-file listed on the command line. Pick any text file you like (or
-files---you can list as many as you like). This example uses [Jane
+files listed on the command line. Pick any text file you like (or
+files---you can list as many as you like with multiple -w flags). This example uses [Jane
 Austen's][2] [Pride and Prejudice][3] from [Project Gutenberg][4].
 
 The numeric parameter you specify is the number of random bits used to
